@@ -1,5 +1,5 @@
 package com.bluebead38.opencvtesseractocr;
-
+//시작화면
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

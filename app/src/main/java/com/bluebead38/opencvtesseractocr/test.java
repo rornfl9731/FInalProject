@@ -1,5 +1,5 @@
 package com.bluebead38.opencvtesseractocr;
-
+//가게 정보 & 한줄리뷰작성
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,7 +71,7 @@ public class test extends AppCompatActivity implements NavigationView.OnNavigati
         data = data.replace("\n","");
         dd = dd.replace("\n","");
         user = FirebaseAuth.getInstance().getCurrentUser();
-        uid = user.getUid();
+    //    uid = user.getUid();
 
 
         tx = (TextView) findViewById(R.id.textView);
@@ -137,6 +138,8 @@ public class test extends AppCompatActivity implements NavigationView.OnNavigati
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String msg = dataSnapshot.getValue().toString();
+                System.out.println(msg);
+                Log.d("sex",msg);
                 Picasso.get().load(msg).into(img);
             }
 
@@ -189,12 +192,9 @@ public class test extends AppCompatActivity implements NavigationView.OnNavigati
 
                 mReference = mDatabase.getReference();
                 mReference.child(dd).push().setValue(edit.getText().toString());
-                if(uid!=null){
-                    mReference.child("사용자 리뷰").child(uid).push().setValue(edit.getText().toString());
-                }
-                else{
 
-                }
+               // mReference.child("사용자 리뷰").child(uid).push().setValue(edit.getText().toString());
+
                 //mReference.child("사용자 리뷰").child(uid).push().setValue(edit.getText().toString());
                 edit.setText("");
                 edit.clearFocus();
@@ -252,16 +252,15 @@ public class test extends AppCompatActivity implements NavigationView.OnNavigati
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(this,Main2Activity.class);
+            Intent intent = new Intent(this,PostListActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(this,ReviewActiviry.class);
+            Intent intent = new Intent(this,Review_In_Activity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {

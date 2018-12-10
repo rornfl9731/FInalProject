@@ -1,20 +1,9 @@
 package com.bluebead38.opencvtesseractocr;
-
+//메인화면
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.support.v7.widget.Toolbar;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,20 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.SignInButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.googlecode.tesseract.android.TessBaseAPI;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -50,10 +30,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import android.support.annotation.NonNull;
-import android.widget.TextView;
-import android.widget.Toast;
+import com.googlecode.tesseract.android.TessBaseAPI;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,NavigationView.OnNavigationItemSelectedListener{
@@ -68,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private int ACTIVITY_REQUEST_CODE = 1;
     static TessBaseAPI sTess;
     private TextView user_txt;
+    private Button sech_btn;
     FirebaseUser user;
     String uid;
 
@@ -76,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user_txt = (TextView)findViewById(R.id.user_txt);
-//        Intent intent = new Intent(this,ReviewActiviry.class);
+//        Intent intent = new Intent(this,Mini.class);
 //        startActivity(intent);
 
         //네비
@@ -114,6 +101,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        sech_btn = (Button)findViewById(R.id.btn_search);
+        sech_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),test.class);
+                intent.putExtra("value",mEditOcrResult.getText().toString());
+                mEditOcrResult.setText("");
+
+                startActivity(intent);
+            }
+        });
+
 
 
         SignInButton btn = (SignInButton)findViewById(R.id.log_but);
@@ -127,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             }
         });
+
+
 
 
 
@@ -216,10 +217,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(this,PostListActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this,Review_In_Activity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
@@ -234,14 +241,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
 
-    public void onClick(View v)
-    {
-        Intent intent = new Intent(this,test.class);
-        intent.putExtra("value",mEditOcrResult.getText().toString());
-        mEditOcrResult.setText("");
-
-        startActivity(intent);
-    }
+//    public void onClick(View v)
+//    {
+//        Intent intent = new Intent(this,test.class);
+//        intent.putExtra("value",mEditOcrResult.getText().toString());
+//        mEditOcrResult.setText("");
+//
+//        startActivity(intent);
+//    }
 
     boolean checkFile(File dir)
     {
